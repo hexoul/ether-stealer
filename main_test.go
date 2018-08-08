@@ -10,7 +10,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestIsBalance(t *testing.T) {
-	if !isBalanceGreaterThanZero("0xc94770007dda54cF92009BFF0dE90c06F603a09f") {
+	if b, _ := isBalanceGreaterThanZero("0xc94770007dda54cF92009BFF0dE90c06F603a09f"); !b {
 		t.Error("Failed to get balance")
 	}
 }

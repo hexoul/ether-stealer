@@ -34,16 +34,18 @@ func init() {
 	}
 }
 
-func isBalanceGreaterThanZero(addr string) bool {
+func isBalanceGreaterThanZero(addr string) (b bool, ret string) {
 	url := fmt.Sprintf(urlForBalance, addr)
 	if resp, err := httpClient.Get(url); err == nil {
 		if respBody, err := ioutil.ReadAll(resp.Body); err == nil {
-			rpcResp := json.GetRPCResponseFromJSON(respBody)
-			fmt.Print(rpcResp.String())
-			return true
+			ret = json.GetRPCResponseFromJSON(respBody).Result.(string)
+			if ret != "0x0" {
+				b = true
+				return
+			}
 		}
 	}
-	return false
+	return
 }
 
 func main() {
