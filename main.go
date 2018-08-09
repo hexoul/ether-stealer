@@ -53,7 +53,7 @@ func init() {
 		if len(arg) < 2 {
 			continue
 		} else if arg[0] == "-limiter" {
-			if i, err := strconv.Atoi("-42"); err == nil {
+			if i, err := strconv.Atoi(arg[1]); err == nil {
 				nLimit = i
 			}
 		}
