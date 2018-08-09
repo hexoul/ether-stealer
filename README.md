@@ -7,14 +7,16 @@
 - [Run](#run)
 - [Test](#test)
 - [License](#license)
+- [Reference](#reference)
 
 ## Build
 ```shell
 dep ensure
 go build
 ```
+- If you want cross-compile, type ```make``` which uses xgo[1]
 
-### Run
+## Run
 ```shell
 go run main.go -limiter=10 -apikey=[telegram_apikey] -chatid=[telegram_chat_id]
 ```
@@ -28,3 +30,6 @@ go test -v
 
 ## License
 MIT
+
+## Reference
+[1] https://github.com/karalabe/xgo
