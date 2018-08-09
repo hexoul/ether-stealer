@@ -18,8 +18,9 @@ go build
 
 ## Run
 ```shell
-go run main.go -limiter=10 -apikey=[telegram_apikey] -chatid=[telegram_chat_id]
+go run main.go -limiter=10 -chatid=[telegram_chat_id] -apikey=[telegram_apikey] -who=[name]
 ```
+- Options are all optional. No need to put all
 
 ## Test
 1. Move each module directory
