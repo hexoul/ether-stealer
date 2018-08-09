@@ -23,6 +23,7 @@ const (
 
 var (
 	nLimit int
+	who    string
 )
 
 func isBalanceGreaterThanZero(addr string) (b bool, val string) {
@@ -57,6 +58,8 @@ func init() {
 			if i, err := strconv.Atoi(arg[1]); err == nil {
 				nLimit = i
 			}
+		} else if arg[0] == "-who" {
+			who = arg[1]
 		}
 	}
 }
@@ -73,7 +76,7 @@ func main() {
 			}
 		}
 	}
-	log.Info("Steal start!!! from ", ip)
+	log.Info("Steal start!!! from ", ip, " ", who)
 
 	limit := limiter.NewConcurrencyLimiter(nLimit)
 	for {
