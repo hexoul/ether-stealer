@@ -46,6 +46,9 @@ func isBalanceGreaterThanZero(addr string) (b bool, val string) {
 }
 
 func main() {
-	fmt.Println("Hello")
-	crypto.GenerateKeyPair()
+	pub, priv := crypto.GenerateKeyPair()
+
+	fmt.Printf("\n%x\n%x\n", pub, priv)
+	addr := crypto.ToAddressFromPubkey(pub)
+	fmt.Printf("%x\n", addr)
 }
