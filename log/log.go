@@ -30,3 +30,13 @@ func init() {
 	}
 	logger.SetLevel(log.InfoLevel)
 }
+
+// Info level logging
+func Info(args ...interface{}) {
+	logger.Info(args...)
+}
+
+// Infof info-level logging with format
+func Infof(format string, args ...interface{}) {
+	logger.Infof(format, args...)
+}
