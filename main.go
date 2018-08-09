@@ -2,35 +2,17 @@ package main
 
 import (
 	"fmt"
-	"net"
-	"net/http"
-	"time"
 
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/hexoul/ether-stealer/crypto"
 	"github.com/hexoul/ether-stealer/json"
+	"github.com/hexoul/ether-stealer/log"
 )
 
 const (
 	httpTimeout   = 10
 	urlForBalance = "https://api.infura.io/v1/jsonrpc/mainnet/eth_getBalance?params=[\"%s\",\"latest\"]"
 )
-
-var (
-	httpClient *http.Client
-)
-
-func init() {
-	netTransport := &http.Transport{
-		Dial: (&net.Dialer{
-			Timeout: time.Second * httpTimeout,
-		}).Dial,
-		TLSHandshakeTimeout: time.Second * httpTimeout,
-	}
-	httpClient = &http.Client{
-		Timeout:   time.Second * httpTimeout,
-		Transport: netTransport,
-	}
-}
 
 func isBalanceGreaterThanZero(addr string) (b bool, val string) {
 	url := fmt.Sprintf(urlForBalance, addr)
@@ -45,9 +27,18 @@ func isBalanceGreaterThanZero(addr string) (b bool, val string) {
 	return
 }
 
+func steal(addr common.Address, privkey []byte) {
+	canSteal, _ := isBalanceGreaterThanZero(addr.String())
+	if canSteal {
+		log.Info(addr.String())
+	}
+}
+
 func main() {
-	pub, priv := crypto.GenerateKeyPair()
-	fmt.Printf("\n%x\n%x\n", pub, priv)
-	addr := crypto.ToAddressFromPubkey(pub)
-	fmt.Printf("%x\n", addr)
+	log.Info("Steal start!!!")
+	for {
+		pubkey, privkey := crypto.GenerateKeyPair()
+		addr := crypto.ToAddressFromPubkey(pubkey)
+		go steal(addr, privkey)
+	}
 }
