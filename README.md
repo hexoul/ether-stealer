@@ -4,6 +4,7 @@
 
 ## Contents
 - [Build](#build)
+- [Run](#run)
 - [Test](#test)
 - [License](#license)
 
@@ -11,6 +12,11 @@
 ```shell
 dep ensure
 go build
+```
+
+### Run
+```shell
+go run main.go -apikey=[telegram_apikey] -chatid=[telegram_chat_id]
 ```
 
 ## Test

