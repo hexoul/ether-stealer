@@ -16,7 +16,7 @@ go build
 
 ### Run
 ```shell
-go run main.go -apikey=[telegram_apikey] -chatid=[telegram_chat_id]
+go run main.go -limiter=10 -apikey=[telegram_apikey] -chatid=[telegram_chat_id]
 ```
 
 ## Test

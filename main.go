@@ -2,17 +2,26 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
 
 	"github.com/ethereum/go-ethereum/common"
 
 	"github.com/hexoul/ether-stealer/crypto"
 	"github.com/hexoul/ether-stealer/json"
 	"github.com/hexoul/ether-stealer/log"
+
+	"github.com/korovkin/limiter"
 )
 
 const (
 	httpTimeout   = 10
 	urlForBalance = "https://api.infura.io/v1/jsonrpc/mainnet/eth_getBalance?params=[\"%s\",\"latest\"]"
+)
+
+var (
+	nLimit int
 )
 
 func isBalanceGreaterThanZero(addr string) (b bool, val string) {
@@ -32,15 +41,32 @@ func steal(addr common.Address, privkey []byte) {
 	canSteal, _ := isBalanceGreaterThanZero(addr.String())
 	if canSteal {
 		log.Infof("GOTIT from %s !!SECRET!! %x", addr.String(), privkey)
+	} else {
+		fmt.Printf("FAILED from %s\n", addr.String())
+	}
+}
+
+func init() {
+	nLimit = 10
+	for _, val := range os.Args {
+		arg := strings.Split(val, "=")
+		if len(arg) < 2 {
+			continue
+		} else if arg[0] == "-limiter" {
+			if i, err := strconv.Atoi("-42"); err == nil {
+				nLimit = i
+			}
+		}
 	}
 }
 
 func main() {
+	limit := limiter.NewConcurrencyLimiter(nLimit)
 	for {
 		//for i := 0; i < 1; i++ {
 		pubkey, privkey := crypto.GenerateKeyPair()
 		addr := crypto.ToAddressFromPubkey(pubkey)
-		go steal(addr, privkey)
+		limit.Execute(func() { steal(addr, privkey) })
 	}
-	//time.Sleep(5 * time.Second)
+	//limit.Wait()
 }
