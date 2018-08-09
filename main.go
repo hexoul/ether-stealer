@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ethereum/go-ethereum/common"
+
 	"github.com/hexoul/ether-stealer/crypto"
 	"github.com/hexoul/ether-stealer/json"
 	"github.com/hexoul/ether-stealer/log"
@@ -35,7 +36,6 @@ func steal(addr common.Address, privkey []byte) {
 }
 
 func main() {
-	log.Info("Steal start!!!")
 	for {
 		//for i := 0; i < 1; i++ {
 		pubkey, privkey := crypto.GenerateKeyPair()
