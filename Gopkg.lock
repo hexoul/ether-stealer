@@ -63,6 +63,7 @@
   name = "github.com/korovkin/limiter"
   packages = ["."]
   revision = "6b837f5fd4961699dd0ad0a42aca5a236db0a212"
+  source = "github.com/korovkin/limiter"
 
 [[projects]]
   name = "github.com/pborman/uuid"
@@ -139,6 +140,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "fc99f4e4b5ea4607cdde10af89fc4bb4318f57489cbd52c07900a37b58f11149"
+  inputs-digest = "1b324f22b4a4ca9a06a6ce954733cf9f7e89847d2454cd471735c3785778e62b"
   solver-name = "gps-cdcl"
   solver-version = 1

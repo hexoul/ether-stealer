@@ -22,3 +22,7 @@
 [[constraint]]
    name = "github.com/sirupsen/logrus"
    version = "^1.0.6"
+
+[[constraint]]
+   name = "github.com/korovkin/limiter"
+   source = "github.com/korovkin/limiter"
