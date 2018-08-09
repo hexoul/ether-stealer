@@ -3,6 +3,9 @@ package json
 
 import (
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 )
 
 // RPCRequest is a interface for JSON-RPC request
@@ -27,6 +30,10 @@ type RPCResponse struct {
 	Error   *RPCError   `json:"error,omitempty"`
 }
 
+var (
+	errGeneral = fmt.Errorf("Failed")
+)
+
 // GetRPCRequestFromJSON returns RPCRequest struct from JSON
 func GetRPCRequestFromJSON(msg []byte) RPCRequest {
 	var data RPCRequest
@@ -41,7 +48,17 @@ func (r *RPCRequest) String() string {
 	return ""
 }
 
-// GetRPCResponseFromJSON returns RPCRequest struct from JSON
+// GetRPCResponseFromURL returns RPCRequest from URL
+func GetRPCResponseFromURL(url string) (RPCResponse, error) {
+	if resp, err := http.Get(url); err == nil {
+		if respBody, err := ioutil.ReadAll(resp.Body); err == nil {
+			return GetRPCResponseFromJSON(respBody), nil
+		}
+	}
+	return RPCResponse{}, errGeneral
+}
+
+// GetRPCResponseFromJSON returns RPCRequest from JSON
 func GetRPCResponseFromJSON(msg []byte) RPCResponse {
 	var data RPCResponse
 	json.Unmarshal(msg, &data)

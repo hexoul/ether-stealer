@@ -2,14 +2,12 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"time"
 
+	"github.com/hexoul/ether-stealer/crypto"
 	"github.com/hexoul/ether-stealer/json"
-
-	_ "github.com/ethereum/go-ethereum/crypto"
 )
 
 const (
@@ -34,20 +32,20 @@ func init() {
 	}
 }
 
-func isBalanceGreaterThanZero(addr string) (b bool, ret string) {
+func isBalanceGreaterThanZero(addr string) (b bool, val string) {
 	url := fmt.Sprintf(urlForBalance, addr)
-	if resp, err := httpClient.Get(url); err == nil {
-		if respBody, err := ioutil.ReadAll(resp.Body); err == nil {
-			ret = json.GetRPCResponseFromJSON(respBody).Result.(string)
-			if ret != "0x0" {
-				b = true
-				return
-			}
-		}
+	ret, err := json.GetRPCResponseFromURL(url)
+	if err != nil {
+		return
+	}
+
+	if val = ret.Result.(string); val != "0x0" {
+		b = true
 	}
 	return
 }
 
 func main() {
 	fmt.Println("Hello")
+	crypto.GenerateKeyPair()
 }
