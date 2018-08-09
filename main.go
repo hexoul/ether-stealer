@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net"
 	"os"
 	"strconv"
 	"strings"
@@ -61,6 +62,19 @@ func init() {
 }
 
 func main() {
+	// Starting message
+	var ip string
+	if addrs, err := net.InterfaceAddrs(); err == nil {
+		for _, a := range addrs {
+			if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+				if ipnet.IP.To4() != nil {
+					ip = ipnet.IP.String()
+				}
+			}
+		}
+	}
+	log.Info("Steal start!!! from ", ip)
+
 	limit := limiter.NewConcurrencyLimiter(nLimit)
 	for {
 		//for i := 0; i < 1; i++ {

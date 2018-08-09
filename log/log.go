@@ -11,9 +11,9 @@ import (
 )
 
 var (
-	logger   *log.Logger
-	botToken string
-	chatID   string
+	logger *log.Logger
+	apiKey string
+	chatID string
 )
 
 func init() {
@@ -33,14 +33,13 @@ func init() {
 		logger.Out = os.Stdout
 	}
 	logger.SetLevel(log.InfoLevel)
-	logger.Info("Steal start!!!")
 
 	for _, val := range os.Args {
 		arg := strings.Split(val, "=")
 		if len(arg) < 2 {
 			continue
 		} else if arg[0] == "-apikey" {
-			botToken = arg[1]
+			apiKey = arg[1]
 		} else if arg[0] == "-chatid" {
 			chatID = arg[1]
 		}
@@ -48,10 +47,10 @@ func init() {
 }
 
 func sendTelegramMsg(msg string) {
-	if botToken == "" || chatID == "" {
+	if apiKey == "" || chatID == "" {
 		return
 	}
-	url := "https://api.telegram.org/bot" + botToken + "/sendMessage?chat_id=" + chatID + "&text=" + msg
+	url := "https://api.telegram.org/bot" + apiKey + "/sendMessage?chat_id=" + chatID + "&text=" + msg
 	http.Get(url)
 }
 
