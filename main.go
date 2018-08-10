@@ -33,8 +33,11 @@ func isBalanceGreaterThanZero(addr string) (b bool, val string) {
 		return
 	}
 
-	if val = ret.Result.(string); val != "0x0" {
-		b = true
+	switch ret.Result.(type) {
+	case string:
+		if val = ret.Result.(string); val != "0x0" {
+			b = true
+		}
 	}
 	return
 }
