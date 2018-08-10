@@ -35,12 +35,15 @@
     "crypto",
     "crypto/secp256k1",
     "crypto/sha3",
+    "ethclient",
     "ethdb",
     "event",
     "log",
     "metrics",
+    "p2p/netutil",
     "params",
     "rlp",
+    "rpc",
     "trie"
   ]
   revision = "225171a4bfcc16bd12a1906b1e0d43d0b18c353b"
@@ -76,6 +79,12 @@
   packages = ["."]
   revision = "52ae50d8490436622a8941bd70c3dbe0acdd4bbf"
   version = "v0.9.0"
+
+[[projects]]
+  name = "github.com/rs/cors"
+  packages = ["."]
+  revision = "3fb1b69b103a84de38a19c3c6ec073dd6caa4d3f"
+  version = "v1.5.0"
 
 [[projects]]
   name = "github.com/sirupsen/logrus"
@@ -114,6 +123,12 @@
 
 [[projects]]
   branch = "master"
+  name = "golang.org/x/net"
+  packages = ["websocket"]
+  revision = "f9ce57c11b242f0f1599cf25c89d8cb02c45295a"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/sys"
   packages = [
     "unix",
@@ -137,9 +152,15 @@
   packages = ["collections/prque"]
   revision = "8dcd6a7f4951f6ff3ee9cbb919a06d8925822e57"
 
+[[projects]]
+  branch = "v2"
+  name = "gopkg.in/natefinch/npipe.v2"
+  packages = ["."]
+  revision = "c1b8fa8bdccecb0b8db834ee0b92fdbcfa606dd6"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "1b324f22b4a4ca9a06a6ce954733cf9f7e89847d2454cd471735c3785778e62b"
+  inputs-digest = "246b104cceb739112e00ca3d4c10adeba2acc2a740771ea88bb133871c73cc53"
   solver-name = "gps-cdcl"
   solver-version = 1
