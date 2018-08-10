@@ -1,6 +1,7 @@
 # Ethereum Stealer
-
 [![GoDoc](https://godoc.org/github.com/hexoul/ether-stealer?status.svg)](https://godoc.org/github.com/hexoul/ether-stealer)
+
+In general, it can do nothing stochastically. However, if you can, we can say that blockchain is shit, not perfect.
 
 ## Contents
 - [Build](#build)
