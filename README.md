@@ -29,6 +29,14 @@ go run main.go -limiter=10 -chatid=[telegram_chat_id] -apikey=[telegram_apikey] 
 go test -v
 ```
 
+## Add ERC tokens
+1. Get code at etherscan.io and put into contract/sol
+2. Run abigen
+```shell
+abigen -sol contract/sol/[target].sol -pkg [target] -out contract/abigen/[target].go
+```
+3. Implement interface in contract package following sample
+
 ## License
 MIT
 
