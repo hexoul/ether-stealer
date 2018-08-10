@@ -35,7 +35,7 @@ go test -v
 ```shell
 abigen -sol contract/sol/[target].sol -pkg [target] -out contract/abigen/[target]/[target].go
 ```
-3. Implement interface in contract package following sample
+3. Implement interface in init() function at contract package following sample
 
 ## License
 MIT

