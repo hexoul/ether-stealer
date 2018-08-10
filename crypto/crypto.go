@@ -53,7 +53,7 @@ func ToAddressFromPrivkey(privkey []byte) (addr common.Address, rerr error) {
 		rerr = err
 		return
 	}
-	rpub, err := RecoverPubkey(testmsg, sig)
+	rpub, err := RecoverPubkey(recoverMsg, sig)
 	if err != nil {
 		rerr = err
 		return
