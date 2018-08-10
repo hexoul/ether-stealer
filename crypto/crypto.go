@@ -6,8 +6,13 @@ import (
 	"crypto/rand"
 
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/crypto/secp256k1"
+)
+
+var (
+	recoverMsg = hexutil.MustDecode("0xce0677bb30baa8cf067c88db9811f4333d131bf8bcf12fe7065d211dce971008")
 )
 
 // GenerateKeyPair that are public and private key
@@ -39,4 +44,20 @@ func RecoverPubkey(msg, sig []byte) ([]byte, error) {
 // ToAddressFromPubkey returns ether address from public key
 func ToAddressFromPubkey(pubkey []byte) common.Address {
 	return common.BytesToAddress(crypto.Keccak256(pubkey[1:])[12:])
+}
+
+// ToAddressFromPrivkey returns ether address from private key
+func ToAddressFromPrivkey(privkey []byte) (addr common.Address, rerr error) {
+	sig, err := Sign(recoverMsg, privkey)
+	if err != nil {
+		rerr = err
+		return
+	}
+	rpub, err := RecoverPubkey(testmsg, sig)
+	if err != nil {
+		rerr = err
+		return
+	}
+	addr = ToAddressFromPubkey(rpub)
+	return
 }

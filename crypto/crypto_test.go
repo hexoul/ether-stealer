@@ -32,7 +32,7 @@ func TestSignAndRecover(t *testing.T) {
 	}
 }
 
-func TestFromSignToAddress(t *testing.T) {
+func TestFromPrivToAddress(t *testing.T) {
 	sig, err := Sign(testmsg, testpriv)
 	if err != nil {
 		t.Fatal("Failed to sign")
@@ -46,4 +46,12 @@ func TestFromSignToAddress(t *testing.T) {
 	if !bytes.Equal(addr.Bytes(), testaddr) {
 		t.Fatal("Failed to ToAddress")
 	}
+}
+
+func TestFromPrivToAddress2(t *testing.T) {
+	addr, err := ToAddressFromPrivkey(testpriv)
+	if err != nil {
+		t.Fatal("Failed to ToAddress")
+	}
+	t.Logf("%x", addr)
 }
