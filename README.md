@@ -33,7 +33,7 @@ go test -v
 1. Get code at etherscan.io and put into contract/sol
 2. Run abigen
 ```shell
-abigen -sol contract/sol/[target].sol -pkg [target] -out contract/abigen/[target].go
+abigen -sol contract/sol/[target].sol -pkg [target] -out contract/abigen/[target]/[target].go
 ```
 3. Implement interface in contract package following sample
 
