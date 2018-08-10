@@ -34,6 +34,7 @@ func init() {
 
 	// Initialize tokens info
 	tokens = append(tokens, ERC20{addr: "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07", name: "OmiseGO", unit: "OMG"})
+	tokens = append(tokens, ERC20{addr: "0xA15C7Ebe1f07CaF6bFF097D8a589fb8AC49Ae5B3", name: "Pundi X Token", unit: "NPXS"})
 
 	// Set caller
 	for i, token := range tokens {
@@ -44,6 +45,8 @@ func init() {
 			token.balanceOf = func(addr common.Address) (*big.Int, error) {
 				return caller.BalanceOf(&bind.CallOpts{}, addr)
 			}
+		case "NPXS":
+			break
 		default:
 			continue
 		}
