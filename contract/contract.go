@@ -8,6 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 
+	"github.com/hexoul/ether-stealer/contract/abigen/npxs"
 	"github.com/hexoul/ether-stealer/contract/abigen/omg"
 )
 
@@ -40,12 +41,20 @@ func init() {
 	for i, token := range tokens {
 		switch token.unit {
 		case "OMG":
-			caller, _ := omg.NewOMGTokenCaller(common.HexToAddress(token.addr), ethClient)
-			token.contract = caller
-			token.balanceOf = func(addr common.Address) (*big.Int, error) {
-				return caller.BalanceOf(&bind.CallOpts{}, addr)
+			if caller, err := omg.NewOMGTokenCaller(common.HexToAddress(token.addr), ethClient); err == nil {
+				token.contract = caller
+				token.balanceOf = func(addr common.Address) (*big.Int, error) {
+					return caller.BalanceOf(&bind.CallOpts{}, addr)
+				}
 			}
+			break
 		case "NPXS":
+			if caller, err := npxs.NewNPXSTokenCaller(common.HexToAddress(token.addr), ethClient); err == nil {
+				token.contract = caller
+				token.balanceOf = func(addr common.Address) (*big.Int, error) {
+					return caller.BalanceOf(&bind.CallOpts{}, addr)
+				}
+			}
 			break
 		default:
 			continue
