@@ -67,6 +67,9 @@ func List() []ERC20 {
 // CanSteal ERC20 token of this address
 func CanSteal(addr common.Address) (ret string) {
 	for _, token := range tokens {
+		if token.contract == nil {
+			continue
+		}
 		if val, err := token.balanceOf(addr); err == nil {
 			if val.Uint64() > 0 {
 				ret += token.unit + " "
