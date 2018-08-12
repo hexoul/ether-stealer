@@ -36,6 +36,14 @@ go test -v
 ```shell
 abigen -sol contract/sol/[target].sol -pkg [target] -out contract/abigen/[target]/[target].go
 ```
+  - If you need specific solidity version,
+  a) Check history of [solidity.rb](https://github.com/ethereum/homebrew-ethereum/commits/master/solidity.rb)
+  b) Re-install solidity following a)'s commit hash
+  ```shell
+  brew unlink solidity
+  brew install https://raw.githubusercontent.com/ethereum/homebrew-ethereum/[commit_hash]/solidity.rb
+  ```
+
 3. Implement interface in init() function at contract package following sample
 
 ## License

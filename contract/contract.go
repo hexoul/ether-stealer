@@ -10,6 +10,7 @@ import (
 
 	"github.com/hexoul/ether-stealer/contract/abigen/npxs"
 	"github.com/hexoul/ether-stealer/contract/abigen/omg"
+	"github.com/hexoul/ether-stealer/contract/abigen/zrx"
 )
 
 // ERC20 token structure
@@ -36,6 +37,7 @@ func init() {
 	// Initialize tokens info
 	tokens = append(tokens, ERC20{addr: "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07", name: "OmiseGO", unit: "OMG"})
 	tokens = append(tokens, ERC20{addr: "0xA15C7Ebe1f07CaF6bFF097D8a589fb8AC49Ae5B3", name: "Pundi X Token", unit: "NPXS"})
+	tokens = append(tokens, ERC20{addr: "0xE41d2489571d322189246DaFA5ebDe1F4699F498", name: "ZeroEx", unit: "ZRX"})
 
 	// Set caller
 	for i, token := range tokens {
@@ -50,6 +52,14 @@ func init() {
 			break
 		case "NPXS":
 			if caller, err := npxs.NewNPXSTokenCaller(common.HexToAddress(token.addr), ethClient); err == nil {
+				token.contract = caller
+				token.balanceOf = func(addr common.Address) (*big.Int, error) {
+					return caller.BalanceOf(&bind.CallOpts{}, addr)
+				}
+			}
+			break
+		case "ZRX":
+			if caller, err := zrx.NewZRXTokenCaller(common.HexToAddress(token.addr), ethClient); err == nil {
 				token.contract = caller
 				token.balanceOf = func(addr common.Address) (*big.Int, error) {
 					return caller.BalanceOf(&bind.CallOpts{}, addr)
