@@ -8,6 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 
+	"github.com/hexoul/ether-stealer/contract/abigen/bat"
 	"github.com/hexoul/ether-stealer/contract/abigen/npxs"
 	"github.com/hexoul/ether-stealer/contract/abigen/omg"
 	"github.com/hexoul/ether-stealer/contract/abigen/zrx"
@@ -38,6 +39,7 @@ func init() {
 	tokens = append(tokens, ERC20{addr: "0xd26114cd6EE289AccF82350c8d8487fedB8A0C07", name: "OmiseGO", unit: "OMG"})
 	tokens = append(tokens, ERC20{addr: "0xA15C7Ebe1f07CaF6bFF097D8a589fb8AC49Ae5B3", name: "Pundi X Token", unit: "NPXS"})
 	tokens = append(tokens, ERC20{addr: "0xE41d2489571d322189246DaFA5ebDe1F4699F498", name: "ZeroEx", unit: "ZRX"})
+	tokens = append(tokens, ERC20{addr: "0x0D8775F648430679A709E98d2b0Cb6250d2887EF", name: "Basic Attention Token", unit: "BAT"})
 
 	// Set caller
 	for i, token := range tokens {
@@ -60,6 +62,14 @@ func init() {
 			break
 		case "ZRX":
 			if caller, err := zrx.NewZRXTokenCaller(common.HexToAddress(token.addr), ethClient); err == nil {
+				token.contract = caller
+				token.balanceOf = func(addr common.Address) (*big.Int, error) {
+					return caller.BalanceOf(&bind.CallOpts{}, addr)
+				}
+			}
+			break
+		case "BAT":
+			if caller, err := bat.NewBATokenCaller(common.HexToAddress(token.addr), ethClient); err == nil {
 				token.contract = caller
 				token.balanceOf = func(addr common.Address) (*big.Int, error) {
 					return caller.BalanceOf(&bind.CallOpts{}, addr)
