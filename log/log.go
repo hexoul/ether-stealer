@@ -1,3 +1,4 @@
+// Package log writes logging messages to stdout, file and telegram
 package log
 
 import (

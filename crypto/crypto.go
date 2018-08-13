@@ -1,3 +1,4 @@
+// Package crypto supports key related functionalities
 package crypto
 
 import (

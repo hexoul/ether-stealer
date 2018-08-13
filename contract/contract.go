@@ -1,3 +1,4 @@
+// Package contract is inferface layer for ERC20 tokens
 package contract
 
 import (
