@@ -86,21 +86,20 @@ func main() {
 	var ip string
 	if addrs, err := net.InterfaceAddrs(); err == nil {
 		for _, a := range addrs {
-			if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-				if ipnet.IP.To4() != nil {
-					ip = ipnet.IP.String()
-				}
+			if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() && ipnet.IP.To4() != nil {
+				ip = ipnet.IP.String()
 			}
 		}
 	}
 	log.Info("Steal start!!! from ", ip, " ", who)
 
 	limit := limiter.NewConcurrencyLimiter(nLimit)
+	// If you want to run finite iterator,
+	// 1. Add condition to `for` statement like `for i:0; i<`
+	// 2. Put `limit.Wait()` after `for` statement
 	for {
-		//for i := 0; i < 1; i++ {
 		pubkey, privkey := crypto.GenerateKeyPair()
 		addr := crypto.ToAddressFromPubkey(pubkey)
 		limit.Execute(func() { steal(addr, privkey) })
 	}
-	//limit.Wait()
 }
