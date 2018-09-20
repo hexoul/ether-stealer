@@ -26,25 +26,28 @@ go run main.go -limiter=10 -chatid=[telegram_chat_id] -apikey=[telegram_apikey] 
 
 ## Test
 1. Move each module directory
-2. Run testunit
+1. Run testunit
 ```shell
 go test -v
 ```
 
-## Add ERC tokens
+## Add ERC20 tokens
 1. Get code at etherscan.io and put into contract/sol
 2. Run abigen
-```shell
-abigen -sol contract/sol/[target].sol -pkg [target] -out contract/abigen/[target]/[target].go
-```
-  - If you need specific solidity version,
-  a) Check history of [solidity.rb](https://github.com/ethereum/homebrew-ethereum/commits/master/solidity.rb)
-  b) Re-install solidity following a)'s commit hash
+ 
   ```shell
-  brew unlink solidity
-  brew install https://raw.githubusercontent.com/ethereum/homebrew-ethereum/[commit_hash]/solidity.rb
+  abigen -sol contract/sol/[target].sol -pkg [target] -out contract/abigen/[target]/[target].go
   ```
-
+ 
+  - If you need specific solidity version,
+    - Check history of [solidity.rb](https://github.com/ethereum/homebrew-ethereum/commits/master/solidity.rb)
+    - Re-install solidity following a)'s commit hash
+ 
+    ```shell
+    brew unlink solidity
+    brew install https://raw.githubusercontent.com/ethereum/homebrew-ethereum/[commit_hash]/solidity.rb
+    ```
+ 
 3. Implement interface in init() function at contract package following sample
 
 ## License
