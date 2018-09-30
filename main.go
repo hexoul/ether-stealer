@@ -95,7 +95,7 @@ func main() {
 
 	limit := limiter.NewConcurrencyLimiter(nLimit)
 	// If you want to run finite iterator,
-	// 1. Add condition to `for` statement like `for i:0; i<`
+	// 1. Add condition to `for` statement like `for i:=0; i<N`
 	// 2. Put `limit.Wait()` after `for` statement
 	for {
 		pubkey, privkey := crypto.GenerateKeyPair()
