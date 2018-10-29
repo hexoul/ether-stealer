@@ -1,8 +1,7 @@
 # Ethereum Stealer
 [![GoDoc](https://godoc.org/github.com/hexoul/ether-stealer?status.svg)](https://godoc.org/github.com/hexoul/ether-stealer)
 
-In general, it can do nothing stochastically. However, if you can, we can say that blockchain is shit, not perfect.
-In other words, this project conducts account mining, not block mining.
+> This project conducts account mining, not block mining. In general, this project can do nothing stochastically. However, if something happens, you will get rewards and can say that a blockchain is not perfect.
 
 ## Contents
 - [Build](#build)
