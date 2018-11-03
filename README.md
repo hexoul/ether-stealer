@@ -1,4 +1,6 @@
 # Ethereum Stealer
+[![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hexoul/ether-stealer/master/LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/hexoul/ether-stealer)](https://goreportcard.com/report/github.com/hexoul/ether-stealer)
 [![GoDoc](https://godoc.org/github.com/hexoul/ether-stealer?status.svg)](https://godoc.org/github.com/hexoul/ether-stealer)
 
 > This project conducts account mining, not block mining. In general, this project can do nothing stochastically. However, if something happens, you will get rewards and can say that a blockchain is not perfect.
