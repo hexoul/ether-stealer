@@ -18,7 +18,7 @@ var (
 )
 
 func init() {
-	// Initalize logger
+	// Initialize logger
 	logger = log.New()
 
 	// Default configuration
