@@ -3,5 +3,4 @@ vendor/*
 .idea/*
 .vscode/*
 *.log
-*.lock
 ether-stealer
