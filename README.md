@@ -14,8 +14,7 @@
 
 ## Build
 ```shell
-dep ensure
-go build
+go get -u github.com/hexoul/ether-stealer
 ```
 - If you want cross-compile, type ```make``` which uses xgo[1]
 
