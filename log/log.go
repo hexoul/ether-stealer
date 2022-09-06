@@ -2,19 +2,19 @@
 package log
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
-	"strings"
 
 	log "github.com/sirupsen/logrus"
 )
 
 var (
 	logger *log.Logger
-	apiKey string
-	chatID string
+	apiKey *string
+	chatID *string
 )
 
 func init() {
@@ -35,23 +35,15 @@ func init() {
 	}
 	logger.SetLevel(log.InfoLevel)
 
-	for _, val := range os.Args {
-		arg := strings.Split(val, "=")
-		if len(arg) < 2 {
-			continue
-		} else if arg[0] == "-apikey" {
-			apiKey = arg[1]
-		} else if arg[0] == "-chatid" {
-			chatID = arg[1]
-		}
-	}
+	apiKey = flag.String("telegram-apikey", "", "Telegram API key")
+	chatID = flag.String("telegram-chatid", "", "Telegram API key")
 }
 
 func sendTelegramMsg(msg string) {
-	if apiKey == "" || chatID == "" {
+	if *apiKey == "" || *chatID == "" {
 		return
 	}
-	url := "https://api.telegram.org/bot" + apiKey + "/sendMessage?chat_id=" + chatID + "&text=" + msg
+	url := "https://api.telegram.org/bot" + *apiKey + "/sendMessage?chat_id=" + *chatID + "&text=" + msg
 	http.Get(url)
 }
 

