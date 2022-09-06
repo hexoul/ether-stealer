@@ -14,7 +14,7 @@ import (
 var (
 	logger *log.Logger
 	apiKey *string
-	chatID *string
+	chatId *string
 )
 
 func init() {
@@ -36,14 +36,14 @@ func init() {
 	logger.SetLevel(log.InfoLevel)
 
 	apiKey = flag.String("telegram-apikey", "", "Telegram API key")
-	chatID = flag.String("telegram-chatid", "", "Telegram API key")
+	chatId = flag.String("telegram-chatid", "", "Telegram API key")
 }
 
 func sendTelegramMsg(msg string) {
-	if *apiKey == "" || *chatID == "" {
+	if *apiKey == "" || *chatId == "" {
 		return
 	}
-	url := "https://api.telegram.org/bot" + *apiKey + "/sendMessage?chat_id=" + *chatID + "&text=" + msg
+	url := "https://api.telegram.org/bot" + *apiKey + "/sendMessage?chat_id=" + *chatId + "&text=" + msg
 	http.Get(url)
 }
 

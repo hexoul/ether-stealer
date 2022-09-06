@@ -29,10 +29,9 @@ go run main.go \
   -telegram-apikey [telegram_apikey] \
   -identifier [name]
 ```
-- Options are all optional. No need to put all.
-- `concurrency`: The number of threads can be executed concurrently.
-- `infura-apikey`: API key of your Infura project.
-- `identifier`: An identifier of a client.
+- (required) `infura-apikey`: API key of your Infura project.
+- (optional) `concurrency`: The number of threads can be executed concurrently.
+- (optional) `identifier`: An identifier of a client.
 
 
 ## Test
