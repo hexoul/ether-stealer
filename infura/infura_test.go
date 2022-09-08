@@ -1,6 +1,7 @@
 package infura
 
 import (
+	"flag"
 	"testing"
 )
 
@@ -9,7 +10,8 @@ const (
 )
 
 func TestHasBalance(t *testing.T) {
+	flag.Parse()
 	if b, _ := New().HasBalance(targetAddr); !b {
-		t.Error("Failed to check balance")
+		t.Error("Failed to check balance.")
 	}
 }

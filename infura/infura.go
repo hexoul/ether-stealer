@@ -21,7 +21,10 @@ func init() {
 }
 
 func New() *Infura {
-	flag.Parse()
+	if *apiKey == "" {
+		panic("Infura API key is required.")
+	}
+
 	return &Infura{
 		apiKey:  *apiKey,
 		baseUrl: fmt.Sprintf("https://mainnet.infura.io/v3/%s", *apiKey),
@@ -42,7 +45,7 @@ func (infura *Infura) get(method string, params []string) (b bool, val string) {
 
 	ret, err := json.GetRPCResponse(infura.baseUrl, rpcRequest)
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println(fmt.Sprintf("infura: error occurred. <%s>", err.Error()))
 		return
 	}
 

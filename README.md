@@ -5,13 +5,6 @@
 
 > This project conducts account mining, not block mining. In general, this project can do nothing stochastically. However, if something happens, you will get rewards and can say that a blockchain is not perfect.
 
-## Contents
-- [Installation](#installation)
-- [Getting started](#getting-started)
-- [Test](#test)
-- [License](#license)
-- [Reference](#reference)
-
 
 ## Installation
 ```shell
@@ -23,15 +16,15 @@ go get -u github.com/hexoul/ether-stealer
 ## Getting started
 ```shell
 go run main.go \
-  -concurrency 10
   -infura-apikey [infura_apikey] \
+  -concurrency 10 \
+  -id [name] \
   -telegram-chatid [telegram_chat_id] \
-  -telegram-apikey [telegram_apikey] \
-  -identifier [name]
+  -telegram-apikey [telegram_apikey]
 ```
 - (required) `infura-apikey`: API key of your Infura project.
 - (optional) `concurrency`: The number of threads can be executed concurrently.
-- (optional) `identifier`: An identifier of a client.
+- (optional) `id`: An identifier of a client.
 
 
 ## Test

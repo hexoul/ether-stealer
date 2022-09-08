@@ -22,36 +22,36 @@ func TestSignAndRecover(t *testing.T) {
 	pub, priv := GenerateKeyPair()
 	sig, err := Sign(testmsg, priv)
 	if err != nil {
-		t.Fatal("Failed to sign")
+		t.Fatal("Failed to sign.")
 	}
 	rpub, err := RecoverPubkey(testmsg, sig)
 	if err != nil {
-		t.Fatal("Failed to recover")
+		t.Fatal("Failed to recover.")
 	} else if !bytes.Equal(pub, rpub) {
 		t.Fatalf("Mismatch btw %x and %x", pub, rpub)
 	}
 }
 
-func TestFromPrivToAddress(t *testing.T) {
+func TestPubkeyToAddress(t *testing.T) {
 	sig, err := Sign(testmsg, testpriv)
 	if err != nil {
-		t.Fatal("Failed to sign")
+		t.Fatal("Failed to sign.")
 	}
 	rpub, err := RecoverPubkey(testmsg, sig)
 	if err != nil {
-		t.Fatal("Failed to recover")
+		t.Fatal("Failed to recover.")
 	}
-	addr := ToAddressFromPubkey(rpub)
+	addr := PubkeyToAddress(rpub)
 	t.Logf("%x", addr)
 	if !bytes.Equal(addr.Bytes(), testaddr) {
-		t.Fatal("Failed to ToAddress")
+		t.Fatal("Failed to get an address from given pubkey.")
 	}
 }
 
-func TestFromPrivToAddress2(t *testing.T) {
-	addr, err := ToAddressFromPrivkey(testpriv)
+func TestPrivkeyToAddress(t *testing.T) {
+	addr, err := PrivkeyToAddress(testpriv)
 	if err != nil {
-		t.Fatal("Failed to ToAddress")
+		t.Fatal("Failed to get an address from given privkey.")
 	}
 	t.Logf("%x", addr)
 }

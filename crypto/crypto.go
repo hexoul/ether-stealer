@@ -40,13 +40,13 @@ func RecoverPubkey(msg, sig []byte) ([]byte, error) {
 	return secp256k1.RecoverPubkey(msg, sig)
 }
 
-// ToAddressFromPubkey returns ether address from public key
-func ToAddressFromPubkey(pubkey []byte) common.Address {
+// PubkeyToAddress returns Ethereum address from public key
+func PubkeyToAddress(pubkey []byte) common.Address {
 	return common.BytesToAddress(crypto.Keccak256(pubkey[1:])[12:])
 }
 
-// ToAddressFromPrivkey returns ether address from private key
-func ToAddressFromPrivkey(privkey []byte) (addr common.Address, rerr error) {
+// PrivkeyToAddress returns ether address from private key
+func PrivkeyToAddress(privkey []byte) (addr common.Address, rerr error) {
 	sig, err := Sign(recoverMsg, privkey)
 	if err != nil {
 		rerr = err
@@ -57,6 +57,6 @@ func ToAddressFromPrivkey(privkey []byte) (addr common.Address, rerr error) {
 		rerr = err
 		return
 	}
-	addr = ToAddressFromPubkey(rpub)
+	addr = PubkeyToAddress(rpub)
 	return
 }
