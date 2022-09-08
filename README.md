@@ -3,7 +3,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/hexoul/ether-stealer)](https://goreportcard.com/report/github.com/hexoul/ether-stealer)
 [![GoDoc](https://godoc.org/github.com/hexoul/ether-stealer?status.svg)](https://godoc.org/github.com/hexoul/ether-stealer)
 
-> This project conducts account mining, not block mining. In general, this project can do nothing stochastically. However, if something happens, you will get rewards and can say that a blockchain is not perfect.
+> This project conducts account mining, not block mining. In general, this project can do nothing stochastically. However, if something happens, you will get rewards and you are able to say that a blockchain is not perfect.
 
 
 ## Installation
@@ -16,21 +16,22 @@ go get -u github.com/hexoul/ether-stealer
 ## Getting started
 ```shell
 go run main.go \
-  -infura-apikey [infura_apikey] \
+  -infura-apikey [your_infura_apikey] \
   -concurrency 10 \
   -id [name] \
-  -telegram-chatid [telegram_chat_id] \
-  -telegram-apikey [telegram_apikey]
+  -telegram-chatid [your_telegram_chat_id] \
+  -telegram-apikey [your_telegram_apikey]
 ```
 - (required) `infura-apikey`: API key of your Infura project.
 - (optional) `concurrency`: The number of threads can be executed concurrently.
 - (optional) `id`: An identifier of a client.
+- (optional) `telegram-chatid` and `telegram-apikey`: If set, this program notify you when steeling succeed.
 
 
 ## Test
 ```shell
 go test -v
-go test -v ./infura -args -infura-apikey xxx
+go test -v ./infura -args -infura-apikey [your_infura_apikey]
 ```
 
 
@@ -53,8 +54,10 @@ go test -v ./infura -args -infura-apikey xxx
  
 3. Implement interface in init() function at contract package following sample
 
+
 ## License
 MIT
+
 
 ## Reference
 [1] https://github.com/karalabe/xgo

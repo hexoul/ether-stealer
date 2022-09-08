@@ -8,53 +8,59 @@ import (
 	"net/http"
 	"os"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 var (
-	logger *log.Logger
 	apiKey *string
 	chatId *string
 )
 
 func init() {
-	// Initialize logger
-	logger = log.New()
+	apiKey = flag.String("telegram-apikey", "", "Telegram API key to send a message")
+	chatId = flag.String("telegram-chatid", "", "Telegram chat ID whose messages can be sent with given API key")
+}
+
+type Logger struct {
+	logger *logrus.Logger
+	apiKey string
+	chatId string
+}
+
+func New() *Logger {
+	logger := logrus.New()
 
 	// Default configuration
 	timestampFormat := "02-01-2006 15:04:05"
-	logger.Formatter = &log.TextFormatter{
+	logger.Formatter = &logrus.TextFormatter{
 		TimestampFormat: timestampFormat,
 		FullTimestamp:   true,
 	}
 	if f, err := os.OpenFile("./stealer.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666); err == nil {
 		logger.Out = io.MultiWriter(f, os.Stdout)
 	} else {
-		fmt.Print("Failed to open log file: you can miss important log")
+		fmt.Println("Failed to open a log file: you can miss important log.")
 		logger.Out = os.Stdout
 	}
-	logger.SetLevel(log.InfoLevel)
-
-	apiKey = flag.String("telegram-apikey", "", "Telegram API key")
-	chatId = flag.String("telegram-chatid", "", "Telegram API key")
+	logger.SetLevel(logrus.InfoLevel)
+	return &Logger{logger: logger, apiKey: *apiKey, chatId: *chatId}
 }
 
-func sendTelegramMsg(msg string) {
-	if *apiKey == "" || *chatId == "" {
+// Info logs info-level
+func (l *Logger) Info(args ...interface{}) {
+	l.logger.Info(args...)
+	go l.sendTelegramMsg(fmt.Sprint(args...))
+}
+
+// Infof logs info-level with format
+func (l *Logger) Infof(format string, args ...interface{}) {
+	l.logger.Infof(format, args...)
+	go l.sendTelegramMsg(fmt.Sprintf(format, args...))
+}
+
+func (l *Logger) sendTelegramMsg(message string) {
+	if l.apiKey == "" || l.chatId == "" {
 		return
 	}
-	url := "https://api.telegram.org/bot" + *apiKey + "/sendMessage?chat_id=" + *chatId + "&text=" + msg
-	http.Get(url)
-}
-
-// Info level logging
-func Info(args ...interface{}) {
-	logger.Info(args...)
-	go sendTelegramMsg(fmt.Sprint(args...))
-}
-
-// Infof info-level logging with format
-func Infof(format string, args ...interface{}) {
-	logger.Infof(format, args...)
-	go sendTelegramMsg(fmt.Sprintf(format, args...))
+	http.Get(fmt.Sprintf("https://api.telegram.org/bot/%s/sendMessage?chat_id=%s&text=%s", l.apiKey, l.chatId, message))
 }

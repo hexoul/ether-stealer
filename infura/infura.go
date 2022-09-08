@@ -11,13 +11,13 @@ var (
 	apiKey *string
 )
 
+func init() {
+	apiKey = flag.String("infura-apikey", "", "API key of your Infura project")
+}
+
 type Infura struct {
 	apiKey  string
 	baseUrl string
-}
-
-func init() {
-	apiKey = flag.String("infura-apikey", "", "API key of your Infura project")
 }
 
 func New() *Infura {
@@ -31,11 +31,11 @@ func New() *Infura {
 	}
 }
 
-func (infura *Infura) HasBalance(addr string) (b bool, val string) {
-	return infura.get("eth_getBalance", []string{addr, "latest"})
+func (i *Infura) HasBalance(addr string) (b bool, val string) {
+	return i.get("eth_getBalance", []string{addr, "latest"})
 }
 
-func (infura *Infura) get(method string, params []string) (b bool, val string) {
+func (i *Infura) get(method string, params []string) (b bool, val string) {
 	rpcRequest := json.RPCRequest{
 		Jsonrpc: "2.0",
 		ID:      1,
@@ -43,7 +43,7 @@ func (infura *Infura) get(method string, params []string) (b bool, val string) {
 		Params:  params,
 	}
 
-	ret, err := json.GetRPCResponse(infura.baseUrl, rpcRequest)
+	ret, err := json.GetRPCResponse(i.baseUrl, rpcRequest)
 	if err != nil {
 		fmt.Println(fmt.Sprintf("infura: error occurred. <%s>", err.Error()))
 		return
