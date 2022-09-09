@@ -6,8 +6,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 
-	"github.com/hexoul/ether-stealer/infura"
-	"github.com/hexoul/ether-stealer/log"
+	"github.com/hexoul/ether-stealer/v2/infura"
+	"github.com/hexoul/ether-stealer/v2/log"
 )
 
 var (
