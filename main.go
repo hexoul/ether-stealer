@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/hexoul/ether-stealer/v2/crypto"
-	"github.com/hexoul/ether-stealer/v2/steal"
+	"github.com/hexoul/ether-stealer/crypto"
+	"github.com/hexoul/ether-stealer/steal"
 
 	"github.com/korovkin/limiter"
 )

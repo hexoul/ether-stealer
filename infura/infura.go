@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/hexoul/ether-stealer/v2/json"
+	"github.com/hexoul/ether-stealer/json"
 )
 
 var (

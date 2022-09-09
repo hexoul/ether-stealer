@@ -40,8 +40,8 @@ $ go run main.go \
 ## Test
 
 ```shell
-$ go test -v ./v2/crypto
-$ go test -v ./v2/infura -args -infura-apikey [your_infura_apikey]
+$ go test -v
+$ go test -v ./infura -args -infura-apikey [your_infura_apikey]
 ```
 
 

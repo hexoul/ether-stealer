@@ -4,4 +4,5 @@ build:
 			./
 
 update-pkg-cache:
-	GOPROXY=proxy.golang.org go list -m github.com/hexoul/ether-stealer@v2.0.0
+	GOPROXY=https://proxy.golang.org GO111MODULE=on \
+	go get github.com/hexoul/ether-stealer@v2.0.0
