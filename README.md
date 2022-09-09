@@ -10,15 +10,16 @@
 ## Installation
 
 ```shell
-go get -u github.com/hexoul/ether-stealer
+$ go get -u github.com/hexoul/ether-stealer
 ```
+
 - If you want cross-compile, type ```make``` which uses xgo[1]
 
 
 ## Getting started
 
 ```shell
-go run main.go \
+$ go run main.go \
   -infura-apikey [your_infura_apikey] \
   -concurrency 10 \
   -iteration 100 \
@@ -39,8 +40,8 @@ go run main.go \
 ## Test
 
 ```shell
-go test -v
-go test -v ./infura -args -infura-apikey [your_infura_apikey]
+$ go test -v
+$ go test -v ./infura -args -infura-apikey [your_infura_apikey]
 ```
 
 
@@ -50,7 +51,7 @@ go test -v ./infura -args -infura-apikey [your_infura_apikey]
 2. Run `abigen`.
  
   ```shell
-  abigen -sol contract/sol/[target].sol -pkg [target] -out contract/abigen/[target]/[target].go
+  $ abigen -sol contract/sol/[target].sol -pkg [target] -out contract/abigen/[target]/[target].go
   ```
  
   - If you need specific solidity version,
@@ -58,8 +59,8 @@ go test -v ./infura -args -infura-apikey [your_infura_apikey]
     - Re-install solidity following a)'s commit hash
  
     ```shell
-    brew unlink solidity
-    brew install https://raw.githubusercontent.com/ethereum/homebrew-ethereum/[commit_hash]/solidity.rb
+    $ brew unlink solidity
+    $ brew install https://raw.githubusercontent.com/ethereum/homebrew-ethereum/[commit_hash]/solidity.rb
     ```
  
 3. Implement interface in `init()` function at contract package by following samples.

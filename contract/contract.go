@@ -5,14 +5,8 @@ import (
 	"context"
 	"math/big"
 
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
-
-	"github.com/hexoul/ether-stealer/contract/abigen/bat"
-	"github.com/hexoul/ether-stealer/contract/abigen/npxs"
-	"github.com/hexoul/ether-stealer/contract/abigen/omg"
-	"github.com/hexoul/ether-stealer/contract/abigen/zrx"
 )
 
 // ERC20 token structure
@@ -46,36 +40,12 @@ func init() {
 	for i, token := range tokens {
 		switch token.unit {
 		case "OMG":
-			if caller, err := omg.NewOMGTokenCaller(common.HexToAddress(token.addr), ethClient); err == nil {
-				token.contract = caller
-				token.balanceOf = func(addr common.Address) (*big.Int, error) {
-					return caller.BalanceOf(&bind.CallOpts{}, addr)
-				}
-			}
-			break
-		case "NPXS":
-			if caller, err := npxs.NewNPXSTokenCaller(common.HexToAddress(token.addr), ethClient); err == nil {
-				token.contract = caller
-				token.balanceOf = func(addr common.Address) (*big.Int, error) {
-					return caller.BalanceOf(&bind.CallOpts{}, addr)
-				}
-			}
-			break
-		case "ZRX":
-			if caller, err := zrx.NewZRXTokenCaller(common.HexToAddress(token.addr), ethClient); err == nil {
-				token.contract = caller
-				token.balanceOf = func(addr common.Address) (*big.Int, error) {
-					return caller.BalanceOf(&bind.CallOpts{}, addr)
-				}
-			}
-			break
-		case "BAT":
-			if caller, err := bat.NewBATokenCaller(common.HexToAddress(token.addr), ethClient); err == nil {
-				token.contract = caller
-				token.balanceOf = func(addr common.Address) (*big.Int, error) {
-					return caller.BalanceOf(&bind.CallOpts{}, addr)
-				}
-			}
+			// if caller, err := omg.NewOMGTokenCaller(common.HexToAddress(token.addr), ethClient); err == nil {
+			// 	token.contract = caller
+			// 	token.balanceOf = func(addr common.Address) (*big.Int, error) {
+			// 		return caller.BalanceOf(&bind.CallOpts{}, addr)
+			// 	}
+			// }
 			break
 		default:
 			continue
