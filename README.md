@@ -1,4 +1,5 @@
 # Ethereum Stealer
+
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hexoul/ether-stealer/master/LICENSE)
 [![Go Report Card](https://goreportcard.com/badge/github.com/hexoul/ether-stealer)](https://goreportcard.com/report/github.com/hexoul/ether-stealer)
 [![GoDoc](https://godoc.org/github.com/hexoul/ether-stealer?status.svg)](https://godoc.org/github.com/hexoul/ether-stealer)
@@ -7,6 +8,7 @@
 
 
 ## Installation
+
 ```shell
 go get -u github.com/hexoul/ether-stealer
 ```
@@ -14,30 +16,38 @@ go get -u github.com/hexoul/ether-stealer
 
 
 ## Getting started
+
 ```shell
 go run main.go \
   -infura-apikey [your_infura_apikey] \
   -concurrency 10 \
+  -iteration 100 \
   -id [name] \
   -telegram-chatid [your_telegram_chat_id] \
-  -telegram-apikey [your_telegram_apikey]
+  -telegram-apikey [your_telegram_apikey] \
+  -silent
 ```
+
 - (required) `infura-apikey`: API key of your Infura project.
-- (optional) `concurrency`: The number of threads can be executed concurrently.
+- (optional) `concurrency`: The number of threads can be executed concurrently. A default value is `10`.
+- (optional) `iteration`: The number of iterations. If set, it will be terminated within a finite time.
 - (optional) `id`: An identifier of a client.
 - (optional) `telegram-chatid` and `telegram-apikey`: If set, this program notify you when steeling succeed.
+- (optional) `silent`: A flag to print failed attempts.
 
 
 ## Test
+
 ```shell
 go test -v
 go test -v ./infura -args -infura-apikey [your_infura_apikey]
 ```
 
 
-## Add ERC20 tokens
-1. Get code at etherscan.io and put into contract/sol
-2. Run abigen
+## (🚧 Recovering) Add ERC20 tokens
+
+1. Get a contract code at [etherscan.io](https://etherscan.io/) and put into `contract/sol` folder.
+2. Run `abigen`.
  
   ```shell
   abigen -sol contract/sol/[target].sol -pkg [target] -out contract/abigen/[target]/[target].go
@@ -52,7 +62,7 @@ go test -v ./infura -args -infura-apikey [your_infura_apikey]
     brew install https://raw.githubusercontent.com/ethereum/homebrew-ethereum/[commit_hash]/solidity.rb
     ```
  
-3. Implement interface in init() function at contract package following sample
+3. Implement interface in `init()` function at contract package by following samples.
 
 
 ## License

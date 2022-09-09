@@ -12,17 +12,18 @@ import (
 )
 
 var (
-	nLimit     *int
-	identifier *string
+	concurrency *int
+	iteration   *int
+	identifier  *string
 )
 
 func init() {
-	nLimit = flag.Int("concurrency", 10, "The number of threads can be executed concurrently.")
-	identifier = flag.String("id", "", "An identifier of a client.")
+	concurrency = flag.Int("concurrency", 10, "The number of threads can be executed concurrently.")
+	iteration = flag.Int("iteration", 0, "The number of iterations. If set, it will be terminated within a finite time.")
+	identifier = flag.String("id", "anonymous", "An identifier of a client.")
 }
 
 func main() {
-	// Starting message
 	var ip string
 	if addrs, err := net.InterfaceAddrs(); err == nil {
 		for _, a := range addrs {
@@ -33,17 +34,25 @@ func main() {
 	}
 
 	flag.Parse()
-	stealer := steal.New()
 	fmt.Printf("Start to steal!!! from <%s> by <%s>\n", ip, *identifier)
 
-	limit := limiter.NewConcurrencyLimiter(*nLimit)
-	// If you want finite iterator,
-	// 1. Add a condition to `for` statement. e.g. `for i:=0; i<N`
-	// 2. Put `limit.WaitAndClose()` after `for` statement.
-	for {
+	limit := limiter.NewConcurrencyLimiter(*concurrency)
+	stealer := steal.New()
+	steal := func() {
 		pubkey, privkey := crypto.GenerateKeyPair()
 		addr := crypto.PubkeyToAddress(pubkey)
 		limit.Execute(func() { stealer.Steal(addr, privkey) })
 	}
-	// limit.WaitAndClose()
+
+	if *iteration > 0 {
+		for i := 0; i < *iteration; i++ {
+			steal()
+		}
+		limit.WaitAndClose()
+		return
+	}
+
+	for {
+		steal()
+	}
 }

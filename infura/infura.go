@@ -12,7 +12,7 @@ var (
 )
 
 func init() {
-	apiKey = flag.String("infura-apikey", "", "API key of your Infura project")
+	apiKey = flag.String("infura-apikey", "", "API key of your Infura project.")
 }
 
 type Infura struct {

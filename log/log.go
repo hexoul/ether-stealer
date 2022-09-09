@@ -17,8 +17,8 @@ var (
 )
 
 func init() {
-	apiKey = flag.String("telegram-apikey", "", "Telegram API key to send a message")
-	chatId = flag.String("telegram-chatid", "", "Telegram chat ID whose messages can be sent with given API key")
+	apiKey = flag.String("telegram-apikey", "", "Telegram API key to send a message.")
+	chatId = flag.String("telegram-chatid", "", "Telegram chat ID whose messages can be sent with given API key.")
 }
 
 type Logger struct {
